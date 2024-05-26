@@ -6,7 +6,7 @@ class CreateTransactions < ActiveRecord::Migration[7.1]
       t.decimal :amount
       t.date :card_expiry_date
       t.string :card_cvv
-      t.integer :status, default: 0
+      t.integer :status
 
       t.timestamps
     end

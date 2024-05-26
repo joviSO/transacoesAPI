@@ -1,51 +1,46 @@
+# frozen_string_literal: true
+
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %i[ show update destroy ]
+  before_action :set_transaction, only: [:show, :update]
 
-  # GET /transactions
-  def index
-    @transactions = Transaction.all
-
-    render json: @transactions
-  end
-
-  # GET /transactions/1
-  def show
-    render json: @transaction
-  end
-
-  # POST /transactions
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = @current_user.transactions.build(transaction_params)
 
     if @transaction.save
-      render json: @transaction, status: :created, location: @transaction
+      render json: @transaction, status: :created
     else
       render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /transactions/1
+  def index
+    @transactions = @current_user.transactions
+    render json: @transactions
+  end
+
+  def show
+    render json: @transaction
+  end
+
   def update
-    if @transaction.update(transaction_params)
+    if @transaction.update(transaction_update_params)
       render json: @transaction
     else
       render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /transactions/1
-  def destroy
-    @transaction.destroy!
+  private
+
+  def set_transaction
+    @transaction = @current_user.transactions.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction
-      @transaction = Transaction.find(params[:id])
-    end
+  def transaction_params
+    params.require(:transaction).permit(:card_number, :amount, :card_expiry_date, :card_cvv, :status)
+  end
 
-    # Only allow a list of trusted parameters through.
-    def transaction_params
-      params.require(:transaction).permit(:user_id, :card_number, :amount, :card_expiry_date, :card_cvv, :status)
-    end
+  def transaction_update_params
+    params.require(:transaction).permit(:status)
+  end
 end
