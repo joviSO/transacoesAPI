@@ -35,9 +35,11 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-gem 'rack-cors'
-gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
+gem 'byebug'
+gem 'fake'
+gem 'jwt'
+gem 'rack-cors'
 gem 'rubocop'
 
 
