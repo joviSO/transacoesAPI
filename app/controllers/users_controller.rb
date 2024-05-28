@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show update destroy ]
+  before_action :set_user, only: %i[show update destroy]
+  skip_before_action :authenticate_request, except: [:index]
 
-  # GET /users
   def index
     @users = User.all
 
@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: @user
+    render json: @user, include: :transactions
   end
 
   def create
