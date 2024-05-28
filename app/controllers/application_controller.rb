@@ -6,10 +6,16 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    token = request.headers['Authorization'].split(' ').last if request.headers['Authorization'].present?
+    token = extract_token_from_headers
     decoded_token = User.decode_jwt(token)
-    @current_user = User.find_by(id: decoded_token[:id]) if decoded_token
+    @current_user = User.find_by(id: decoded_token[:id]) if decoded_token.present?
+    raise StandardError unless @current_user
   rescue StandardError
     render json: { error: 'Not Authorized' }, status: :unauthorized
+  end
+
+  def extract_token_from_headers
+    header = request.headers['Authorization']
+    header.split(' ').last if header.present?
   end
 end
