@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_28_001429) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_31_065346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_001429) do
     t.string "card_number"
     t.decimal "amount"
     t.string "card_cvv"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "card_expiry_month"
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_001429) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.boolean "admin", default: false, null: false
   end
 
   add_foreign_key "transactions", "users"

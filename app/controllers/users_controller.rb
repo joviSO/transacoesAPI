@@ -1,17 +1,11 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show update destroy]
-  skip_before_action :authenticate_request, except: [:index]
-
-  def index
-    @users = User.all
-
-    render json: @users
-  end
+  before_action :set_user, only: %i[show update]
+  skip_before_action :authenticate_request, except: %i[create show update]
 
   def show
-    render json: @user, include: :transactions
+    render json: user_with_paginated_transactions
   end
 
   def create
@@ -32,10 +26,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user.destroy!
-  end
-
   private
 
   def set_user
@@ -44,5 +34,11 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :username)
+  end
+
+  def user_with_paginated_transactions
+    user_attributes = @user.attributes
+    user_attributes[:paginated_transactions] = @user.paginated_transactions(params[:page], 5)
+    user_attributes
   end
 end

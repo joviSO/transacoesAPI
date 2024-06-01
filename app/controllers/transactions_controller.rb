@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: [:show, :update]
+  before_action :authenticate_request
+  before_action :set_transaction, only: %i[show update]
 
   def create
+    expiry_date = Date.new(transaction_params[:card_expiry_year].to_i, transaction_params[:card_expiry_month].to_i, -1)
+
     @transaction = @current_user.transactions.build(transaction_params)
+
+    @transaction.status = :failed if expiry_date <= Date.today
 
     if @transaction.save
       render json: @transaction, status: :created
@@ -14,7 +19,7 @@ class TransactionsController < ApplicationController
   end
 
   def index
-    @transactions = @current_user.transactions
+    @transactions = Transaction.page(params[:page]).per(5)
     render json: @transactions
   end
 
@@ -37,7 +42,9 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:card_number, :amount, :card_expiry_date, :card_cvv, :status)
+    params.require(:transaction).permit(
+      :card_number, :amount, :card_expiry_month, :card_expiry_year, :card_cvv, :status
+    )
   end
 
   def transaction_update_params
