@@ -1,5 +1,7 @@
 # README
-Bem não tenho muita criatividade para documentação então serei o mais objetivo que eu conseguir
+Bem não tenho muita criatividade para documentação então serei o mais objetivo que eu conseguir, esse desafio foi bem interessante, foi a primeira vez que trabalho usando JWT
+realmente me prendeu muito nesse periodo do teste, a questão do swagger estarei deixando pra proxima, e os testes dos principais endpoints estão feitos a pesar de eu não conseguir passar eles, pois precisavam
+do token gerado pelo authenticateApplication
 
 ## Ruby
 
@@ -28,3 +30,5 @@ rails db:create \\\criará o banco de dados com o nome de acodo com o do projeto
 rails db:migrate \\\esse comando fará com que as mudanças das migraçoes sejam persistidas no banco:
 
 rails db:seed \\\criei um pequeno script para gerar alguns usuarios e transações para poder testar:
+
+Esse seed tras um usuario por padrão teste@teste.com, as senhas do seed por padrão são 123123
