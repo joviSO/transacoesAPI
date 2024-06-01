@@ -1,24 +1,30 @@
 # README
+Bem não tenho muita criatividade para documentação então serei o mais objetivo que eu conseguir
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ruby
 
-Things you may want to cover:
+Versão do Ruby: 3.3.1
+Versão do Rails: 7.1.3
 
-* Ruby version
+## Servidor utilizado
 
-* System dependencies
+Puma
 
-* Configuration
+## Como acessar o Servidor
+abra o terminal, entre na pasta do projeto e rode o comando:
 
-* Database creation
+rails s
+Esse projeto foi configurado pra rodar em
+http://localhost:3001
 
-* Database initialization
+## Comando para povoar o Banco de dados
 
-* How to run the test suite
+certifique-se que você tenha o Postgresql instalado e configurado
 
-* Services (job queues, cache servers, search engines, etc.)
+Primeiramente rode o comando:
 
-* Deployment instructions
+rails db:create \\\criará o banco de dados com o nome de acodo com o do projeto:
 
-* ...
+rails db:migrate \\\esse comando fará com que as mudanças das migraçoes sejam persistidas no banco:
+
+rails db:seed \\\criei um pequeno script para gerar alguns usuarios e transações para poder testar:
